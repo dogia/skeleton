@@ -2,7 +2,7 @@
 
 namespace Skeleton\Core\Router;
 
-class Request
+class Request extends \Nette\Http\Request
 {
     const GET = 0;
     const POST = 1;

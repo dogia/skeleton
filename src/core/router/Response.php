@@ -2,23 +2,7 @@
 
 namespace Skeleton\Core\Router;
 
-class Response
+class Response implements \Nette\Http\IResponse
 {
-    private array $headers;
-    public function setHeader()
-    {
 
-    }
-
-    private function prepare()
-    {
-        foreach($this->headers as $header)
-            header($header);
-        return $this;
-    }
-
-    public function respondWithStatus(mixed $body, int $status)
-    {
-
-    }
 }
