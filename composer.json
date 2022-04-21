@@ -1,0 +1,21 @@
+{
+    "name": "dogia/skeleton",
+    "description": "Php light framework",
+    "type": "framework",
+    "autoload": {
+        "psr-4": {
+            "Skeleton\\": "src/",
+            "Skeleton\\Api\\": "src/api/",
+            "Skeleton\\Core\\": "src/core",
+            "Skeleton\\Core\\Middleware\\": "src/core/middleware",
+            "Skeleton\\Core\\Router\\": "src/core/router"
+        }
+    },
+    "authors": [
+        {
+            "name": "dogia"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {}
+}
