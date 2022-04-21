@@ -10,8 +10,11 @@ use Skeleton\Api\{User};
 use Skeleton\Core\Router\{Router, Request};
 
 
-$router = new Router();
+$router = new Router('/skeleton/public/login');
 
-$router->append(Request::GET, "/skeleton/{section}/", [User::class, 'login']);
+$router->append(Request::GET, "/{section}", [User::class, 'login']);
+$router->append(Request::GET, "/{otraseccion}/{o}", function($otraseccion, $o){
+    echo "____ $otraseccion no se ejecuta $o";
+});
 
 $router->attend();

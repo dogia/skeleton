@@ -5,7 +5,11 @@
     "autoload": {
         "psr-4": {
             "Skeleton\\": "src/",
+
             "Skeleton\\Api\\": "src/api/",
+
+            "Skeleton\\Model\\": "src/model",
+
             "Skeleton\\Core\\": "src/core",
             "Skeleton\\Core\\Middleware\\": "src/core/middleware",
             "Skeleton\\Core\\Router\\": "src/core/router"

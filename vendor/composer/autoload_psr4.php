@@ -6,6 +6,7 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Skeleton\\Model\\' => array($baseDir . '/src/model'),
     'Skeleton\\Core\\Router\\' => array($baseDir . '/src/core/router'),
     'Skeleton\\Core\\Middleware\\' => array($baseDir . '/src/core/middleware'),
     'Skeleton\\Core\\' => array($baseDir . '/src/core'),

@@ -2,6 +2,7 @@
 
 namespace Skeleton\Core\Router;
 
+use ReflectionFunction;
 use ReflectionMethod;
 
 class Route
@@ -27,13 +28,24 @@ class Route
 
                 $methodParams = [];
                 foreach($parameters as $parameter)
-                    $methodParams[] = $params[$parameter->getName()];
+                    if(isset($params[$parameter->getName()]))
+                        $methodParams[] = $params[$parameter->getName()];
+                    else die("Doesn't exists enough arguments to handle this request");
 
                 $class->$method(... $methodParams);
             };
             $this->handler = $classMethod;
         }else{
-            $this->handler = $handler;
+            $functionHandler = function($params) use ($handler) {
+                $parameters = (new ReflectionFunction($handler))->getParameters();
+                $fnParams = [];
+                foreach($parameters as $parameter)
+                    if(isset($params[$parameter->getName()]))
+                        $fnParams[] = $params[$parameter->getName()];
+                    else die("Doesn't exists enough arguments to handle this request");
+                $handler(... $fnParams);
+            };
+            $this->handler = $functionHandler;
         }
     }
 
@@ -67,12 +79,12 @@ class Route
                 $prefixC = substr($cWord, 0, $initVar);
                 $prefixQ = substr($qWord, 0, $initVar);
 
-                if($prefixC != $prefixQ){
-                    return false;
-                }
-
                 $nameVar = substr($cWord, ($initVar + 1), $finishVar - $initVar - 1);
                 $valueVar = substr($qWord, $initVar);
+
+                if($prefixC != $prefixQ || strlen($nameVar) == 0 || strlen($valueVar) == 0){
+                    return false;
+                }
 
                 $this->params[$nameVar] = $valueVar;
             }else if($cWord != $qWord){
