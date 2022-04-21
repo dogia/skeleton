@@ -20,7 +20,7 @@ class Request
     const PROPFIND = 13;
     const VIEW = 14;
 
-    public function __construct(\http\Client\Request ){
+    public function __construct(){
 
     }
 }
