@@ -2,7 +2,7 @@
 
 namespace Skeleton\Core\Router;
 
-class Request extends \Nette\Http\Request
+class Request
 {
     const GET = 0;
     const POST = 1;
@@ -20,7 +20,15 @@ class Request extends \Nette\Http\Request
     const PROPFIND = 13;
     const VIEW = 14;
 
-    public function __construct(){
+    private array $headers;
+    private int $method;
+    private string $protocol;
+    private string $uri;
+    private string $host;
+    private $body;
 
+    public function __construct(){
+        $input = file_get_contents('php://input');
+        $temp = file_get_contents('php://temp');
     }
 }
