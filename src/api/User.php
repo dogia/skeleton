@@ -8,8 +8,7 @@ class User
 {
     public function login(Response $response, Request $request, $section)
     {
-        $response->respond("texto");
-        $response->deleteCookie('algo');
+        $response->respond("text");
         return $response;
     }
 }

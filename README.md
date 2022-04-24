@@ -15,11 +15,16 @@ $router->attend();
 ### How looks the controller?
 ```php
 namespace Skeleton\Api;
-use Skeleton\Core\Router\{Response, Request};  
-class User  {  
-    public function login(Response $response, Request $request, $section)  {  
-	  echo "login called at $section";  
-    }  
+
+use Skeleton\Core\Router\{Response, Request};
+
+class User
+{
+    public function login(Response $response, Request $request, $section)
+    {
+        $response->respond("text");
+        return $response;
+    }
 }
 ```
 # You want to develop, Sure !!!
