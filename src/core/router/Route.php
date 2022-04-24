@@ -103,6 +103,7 @@ class Route
         $this->params['response'] = $response;
         $this->params['request'] = $request;
 
-        ($this->handler)($this->params);
+        $response = ($this->handler)($this->params);
+        var_dump($response);
     }
 }

@@ -7,14 +7,17 @@ ini_set('display_startup_errors', 1);
 require '../vendor/autoload.php';
 
 use Skeleton\Api\{User};
-use Skeleton\Core\Router\{Router, Request};
+use Skeleton\Core\Router\{Router, Request, Response};
 
+
+$a = [1,2,3,4];
+var_dump(gettype($a));
 
 $router = new Router('/skeleton/public/login');
 
 $router->append(Request::GET, "/{section}", [User::class, 'login']);
-$router->append(Request::GET, "/{otraseccion}/{o}", function($otraseccion, $o){
-    echo "____ $otraseccion no se ejecuta $o";
+$router->append(Request::GET, "/{otraseccion}/{o}", function(Response $response){
+    $response->setContent("Contenido");
 });
 
 $router->attend();

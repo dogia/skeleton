@@ -19,6 +19,7 @@ class Request
     const PROPFIND = 12;
     const VIEW = 13;
 
+    private array $cookies;
     private array $headers;
     private int $method;
     private $url;
@@ -56,6 +57,7 @@ class Request
 
     public function __construct()
     {
+        $this->cookies = $_COOKIE;
         $this->loadHeaders();
         $this->loadMethod();
         $this->url = parse_url($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
@@ -93,5 +95,18 @@ class Request
     public function getBody()
     {
         return $this->body;
+    }
+
+    public function getCookies()
+    {
+        return $this->cookies;
+    }
+
+    public function getCookie($name)
+    {
+        foreach($this->cookies as $key => $value)
+            if($key === $name)
+                return $value;
+        return false;
     }
 }
