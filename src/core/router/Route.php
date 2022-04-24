@@ -4,8 +4,9 @@ namespace Skeleton\Core\Router;
 
 use ReflectionFunction;
 use ReflectionMethod;
+use Skeleton\Core\Router\{Request, Response};
 
-class Route
+class Route extends Response
 {
     private int $method;
     private string $url_query;
@@ -17,6 +18,7 @@ class Route
         $this->method = $method;
         $this->url_query = $url_query;
         $this->params = array();
+
 
         if(is_array($handler))
         {
@@ -43,7 +45,7 @@ class Route
                     if(isset($params[$parameter->getName()]))
                         $fnParams[] = $params[$parameter->getName()];
                     else die("Doesn't exists enough arguments to handle this request");
-                $handler(... $fnParams);
+                $handler(... $fnParams)->callback();
             };
             $this->handler = $functionHandler;
         }
@@ -103,7 +105,6 @@ class Route
         $this->params['response'] = $response;
         $this->params['request'] = $request;
 
-        $response = ($this->handler)($this->params);
-        var_dump($response);
+        ($this->handler)($this->params);
     }
 }

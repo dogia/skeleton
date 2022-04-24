@@ -62,7 +62,6 @@ class Request
         $this->loadMethod();
         $this->url = parse_url($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
         $this->body = file_get_contents('php://input');
-        var_dump($this->url);
     }
 
     public function getHeaders()

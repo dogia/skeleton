@@ -10,10 +10,7 @@ use Skeleton\Api\{User};
 use Skeleton\Core\Router\{Router, Request, Response};
 
 
-$a = [1,2,3,4];
-var_dump(gettype($a));
-
-$router = new Router('/skeleton/public/login');
+$router = new Router('/skeleton/public');
 
 $router->append(Request::GET, "/{section}", [User::class, 'login']);
 $router->append(Request::GET, "/{otraseccion}/{o}", function(Response $response){

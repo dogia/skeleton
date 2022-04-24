@@ -18,16 +18,13 @@ class Response
         $this->cookies = [];
         $this->headers = [];
         $this->content = '';
-        $this->callback = function (){};
     }
 
     public function __destruct()
     {
         foreach($this->cookies as $name => $cookie)
         {
-            foreach($cookie as $key => $value)
-                $$key = $value;
-            setcookie($name, $value, $expires, $path, $domain, $secure, $httponly);
+            setcookie($name, $cookie['value'], $cookie['expires'], $cookie['path'], $cookie['domain'], $cookie['secure'], $cookie['httponly']);
         }
 
         foreach($this->headers as $header)
@@ -58,6 +55,7 @@ class Response
     }
     public function json($content)
     {
+        $this->header("Content-Type: application/json; charset=UTF-8");
         $this->content = json_encode($content);
     }
 
@@ -86,10 +84,13 @@ class Response
 
     public function deleteCookie($name)
     {
-        if (isset($this->cookies[$name])) {
-            unset($this->cookies[$name]);
-            unset($_COOKIE[$name]);
-            setcookie($name, null, -1, '/');
-        }
+        $this->withCookie($name);
+        return $this;
+    }
+
+    public function header($header)
+    {
+        $this->headers[] = $header;
+        return $this;
     }
 }
