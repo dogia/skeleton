@@ -10,25 +10,88 @@ class Request
     const PATCH = 3;
     const DELETE = 4;
     const COPY = 5;
-    const HEAD = 6;
-    const OPTIONS = 7;
-    const LINK = 8;
-    const UNLINK = 9;
-    const PURGE = 10;
-    const LOCK = 11;
-    const UNLOCK = 12;
-    const PROPFIND = 13;
-    const VIEW = 14;
+    const OPTIONS = 6;
+    const LINK = 7;
+    const UNLINK = 8;
+    const PURGE = 9;
+    const LOCK = 10;
+    const UNLOCK = 11;
+    const PROPFIND = 12;
+    const VIEW = 13;
 
     private array $headers;
     private int $method;
-    private string $protocol;
-    private string $uri;
-    private string $host;
+    private $url;
     private $body;
 
-    public function __construct(){
-        $input = file_get_contents('php://input');
-        $temp = file_get_contents('php://temp');
+    private function loadHeaders()
+    {
+        $this->headers = array();
+        foreach(getallheaders() as $key =>  $value)
+        {
+            $this->headers[$key] = $value;
+        }
+    }
+
+    private function loadMethod()
+    {
+        switch($_SERVER['REQUEST_METHOD'])
+        {
+            case 'GET': $this->method = self::GET; break;
+            case 'POST': $this->method = self::POST; break;
+            case 'PUT': $this->method = self::PUT; break;
+            case 'PATCH': $this->method = self::PATCH; break;
+            case 'DELETE': $this->method = self::DELETE; break;
+            case 'COPY': $this->method = self::COPY; break;
+            case 'OPTIONS': $this->method = self::OPTIONS; break;
+            case 'LINK': $this->method = self::LINK; break;
+            case 'UNLINK': $this->method = self::UNLINK; break;
+            case 'PURGE': $this->method = self::PURGE; break;
+            case 'LOCK': $this->method = self::LOCK; break;
+            case 'UNLOCK': $this->method = self::UNLOCK; break;
+            case 'PROPFIND': $this->method = self::PROPFIND; break;
+            case 'VIEW': $this->method = self::VIEW; break;
+        }
+    }
+
+    public function __construct()
+    {
+        $this->loadHeaders();
+        $this->loadMethod();
+        $this->url = parse_url($_SERVER['REQUEST_SCHEME'].'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+        $this->body = file_get_contents('php://input');
+        var_dump($this->url);
+    }
+
+    public function getHeaders()
+    {
+        return $this->headers;
+    }
+
+    public function getHeader($header)
+    {
+        foreach($this->headers as $key => $value)
+        {
+            if($key === $header)
+            {
+                return $value;
+            }
+        }
+        return false;
+    }
+
+    public function getMethod()
+    {
+        return $this->method;
+    }
+
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    public function getBody()
+    {
+        return $this->body;
     }
 }

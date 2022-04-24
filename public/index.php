@@ -18,3 +18,5 @@ $router->append(Request::GET, "/{otraseccion}/{o}", function($otraseccion, $o){
 });
 
 $router->attend();
+
+new Request();
