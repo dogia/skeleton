@@ -15,9 +15,11 @@ class Router
         Router::$solved = false;
     }
 
-    public function append(int $method, string $url, $handler): void
+    public function append(int $method, string $url, $handler): Route
     {
-        $this->routes[] = new Route($method, $this->root.$url, $handler);
+        $route = new Route($method, $this->root.$url, $handler);
+        $this->routes[] = $route;
+        return $route;
     }
 
     private function match($url): bool

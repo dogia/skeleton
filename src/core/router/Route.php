@@ -97,6 +97,11 @@ class Route extends Response
         return true;
     }
 
+    public function middleware()
+    {
+
+    }
+
     public function handle()
     {
         $response = new Response();
