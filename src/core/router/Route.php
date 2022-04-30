@@ -10,14 +10,15 @@ class Route extends Response
 {
     private int $method;
     private string $url_query;
-    private $handler;
+    private \Closure $handler;
     private array $params;
-
+    private array $middlewares;
     public function __construct(int $method, string $url_query, $handler)
     {
         $this->method = $method;
         $this->url_query = $url_query;
         $this->params = array();
+        $this->middlewares = array();
 
 
         if(is_array($handler))
@@ -97,9 +98,9 @@ class Route extends Response
         return true;
     }
 
-    public function middleware()
+    public function middleware($middleware)
     {
-
+        $this->middlewares[] = $middleware;
     }
 
     public function handle()
@@ -109,6 +110,9 @@ class Route extends Response
 
         $this->params['response'] = $response;
         $this->params['request'] = $request;
+
+        foreach($this->middlewares as $middleware)
+            $middleware->handle($this->params['request'], $this->params['response']);
 
         ($this->handler)($this->params);
     }

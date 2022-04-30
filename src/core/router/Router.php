@@ -4,6 +4,7 @@ namespace Skeleton\Core\Router;
 
 class Router
 {
+    private static $routers = array();
     private static bool $solved;
     private array $routes;
     private string $root;
@@ -13,11 +14,12 @@ class Router
         $this->root = $root;
         $this->routes = array();
         Router::$solved = false;
+        Router::$routers[] = $this;
     }
 
     public function append(int $method, string $url, $handler): Route
     {
-        $route = new Route($method, $this->root.$url, $handler);
+        $route = new Route($method, $this->root . $url, $handler);
         $this->routes[] = $route;
         return $route;
     }
@@ -27,18 +29,29 @@ class Router
         return ($this->root == '' || strpos($url, $this->root) !== false);
     }
 
-    public function attend()
+    /**
+     * @throws \Exception
+     */
+    public static function attend()
     {
         $url = $_SERVER['REQUEST_URI'];
-        if(!$this->match($url))
-            return false;
 
-        foreach($this->routes as $route)
+        foreach (self::$routers as $router)
         {
-            if($route->match($url) && !Router::$solved){
-                Router::$solved = true;
-                $route->handle();
+            if(!$router->match($url))
+                continue;
+
+            foreach($router->routes as $route)
+            {
+                if($route->match($url) && !self::$solved)
+                {
+                    self::$solved = true;
+                    $route->handle();
+                    return;
+                }
             }
         }
+
+        throw new \Exception('Route not found!', 404);
     }
 }

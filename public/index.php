@@ -17,6 +17,12 @@ $router->append(Request::GET, "/{otraseccion}/{o}", function(Response $response)
     $response->setContent("Contenido");
 });
 
-$router->attend();
+try {
+    $router::attend();
+} catch (Exception $e) {
+    if($e->getCode() == 404){
+        echo $e->getMessage();
+    }
+}
 
 new Request();
